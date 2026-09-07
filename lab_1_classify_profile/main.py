@@ -3,6 +3,7 @@ Lab 1.
 
 Language detection
 """
+oh my god
 
 # pylint:disable=unused-argument
 from typing import Sequence
