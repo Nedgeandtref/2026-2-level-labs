@@ -13,10 +13,6 @@ ProfileType = tuple[str, FreqDictType, int]
 "Language profile of a text. Contains language name, frequency dictionary and number of tokens."
 # Mark 4.
 
-with open("unknown.txt", "r", encoding = "UTF-8") as f:
-    text = f.read
-    return text
-    
 def tokenize(text: str) -> Sequence[str] | None:
     text = text.lower()
     cleaned_lst = []
@@ -26,7 +22,7 @@ def tokenize(text: str) -> Sequence[str] | None:
     cleaned_str = "".join(cleaned_lst)
     tokens = cleaned_str.split()
     return tokens
-    
+
     """
     Splits a text into tokens, converts the tokens into lowercase,
     removes punctuation and other symbols from words
