@@ -13,10 +13,6 @@ ProfileType = tuple[str, FreqDictType, int]
 "Language profile of a text. Contains language name, frequency dictionary and number of tokens."
 # Mark 4.
 
-with open("unknown.txt", "r", encoding = "UTF-8") as f:
-    text = f.read
-    return text
-
 def tokenize(text: str) -> Sequence[str] | None:
     if not isinstance(text, str):
         return
