@@ -14,10 +14,12 @@ ProfileType = tuple[str, FreqDictType, int]
 # Mark 4.
 
 def tokenize(text: str) -> Sequence[str] | None:
+    if not isinstance(text, str):
+        return
     text = text.lower()
     cleaned_lst = []
     for symbol in text:
-        if symbol.isalnum() or symbol == " ":
+        if symbol.isalpha() or symbol == " ":
             cleaned_lst.append(symbol)
     cleaned_str = "".join(cleaned_lst)
     tokens = cleaned_str.split()
