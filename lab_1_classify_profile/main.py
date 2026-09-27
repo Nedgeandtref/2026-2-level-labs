@@ -22,8 +22,7 @@ def tokenize(text: str) -> Sequence[str] | None:
         if symbol.isalpha() or symbol == " ":
             cleaned_lst.append(symbol)
     cleaned_str = "".join(cleaned_lst)
-    tokens = cleaned_str.split()
-    return tokens
+    return cleaned_str.split()
 
     """
     Splits a text into tokens, converts the tokens into lowercase,
