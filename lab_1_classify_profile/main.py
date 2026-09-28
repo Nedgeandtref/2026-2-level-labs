@@ -14,6 +14,17 @@ ProfileType = tuple[str, FreqDictType, int]
 # Mark 4.
 
 def tokenize(text: str) -> Sequence[str] | None:
+    """
+        Splits a text into tokens, converts the tokens into lowercase,
+        removes punctuation and other symbols from words
+
+        Args:
+           text (str): Text
+
+        Returns:
+            Sequence[str] | None: Sequence of lower-cased tokens without punctuation.
+            Returns None if input text is not a string.
+        """
     if not isinstance(text, str):
         return
     text = text.lower()
@@ -24,20 +35,19 @@ def tokenize(text: str) -> Sequence[str] | None:
     cleaned_str = "".join(cleaned_lst)
     return cleaned_str.split()
 
-    """
-    Splits a text into tokens, converts the tokens into lowercase,
-    removes punctuation and other symbols from words
-
-    Args:
-       text (str): Text
-
-    Returns:
-        Sequence[str] | None: Sequence of lower-cased tokens without punctuation.
-        Returns None if input text is not a string.
-    """
 
 
 def remove_stop_words(tokens: Sequence[str], stop_words: Sequence[str]) -> Sequence[str] | None:
+    """
+        Removes stop words
+
+        Args:
+            tokens (Sequence[str]): Sequence of tokens
+            stop_words (Sequence[str]): Sequence of stop words (can be empty)
+        Returns:
+            Sequence[str] | None: Sequence of tokens without stop words.
+            Returns None in case of incorrect input types.
+        """
     if isinstance(tokens, str) or isinstance(stop_words, str):
         return None
     if not isinstance(tokens, (list, tuple, set)) or not isinstance(stop_words, (list, tuple, set)):
@@ -51,21 +61,22 @@ def remove_stop_words(tokens: Sequence[str], stop_words: Sequence[str]) -> Seque
             clean.append(token)
 
     return clean
-    """
-    Removes stop words
 
-    Args:
-        tokens (Sequence[str]): Sequence of tokens
-        stop_words (Sequence[str]): Sequence of stop words (can be empty)
-    Returns:
-        Sequence[str] | None: Sequence of tokens without stop words.
-        Returns None in case of incorrect input types.
-    """
 
 
 def calculate_frequencies(tokens: Sequence[str]) -> dict[str, float] | None:
-    if isinstance(tokens, str) or not all(isinstance(token, str) for token in tokens):
-        return
+    """
+        Calculates frequencies of given tokens
+
+        Args:
+            tokens (Sequence[str]): Sequence of tokens
+        Returns:
+            dict[str, float] | None: Dictionary with frequencies.
+            Returns None in case of incorrect input types.
+        """
+    if not(isinstance(tokens, Sequence) and all([isinstance(word, str) for word in tokens])):
+        return None
+
     token_divider = len(tokens)
     counts = {}
     for token in tokens:
@@ -77,18 +88,21 @@ def calculate_frequencies(tokens: Sequence[str]) -> dict[str, float] | None:
 
 
 
-    """
-    Calculates frequencies of given tokens
 
-    Args:
-        tokens (Sequence[str]): Sequence of tokens
-    Returns:
-        dict[str, float] | None: Dictionary with frequencies.
-        Returns None in case of incorrect input types.
-    """
 
 
 def get_top_n_words(freq_dict: dict[str, float], top_n: int) -> Sequence[str] | None:
+    """
+        Finds the most common words
+
+        Args:
+            freq_dict (dict[str, float]): Dictionary with frequencies
+            top_n (int): Number of the most common words
+
+        Returns:
+            Sequence[str] | None: Sequence of the most common words.
+            Returns None in case of incorrect input types or non-positive top_n.
+        """
     if not isinstance(freq_dict, dict) or not isinstance(top_n, int):
         return
     if top_n <= 0:
@@ -98,20 +112,6 @@ def get_top_n_words(freq_dict: dict[str, float], top_n: int) -> Sequence[str] | 
     top_n_dict = dict(top_n_words)
 
     print(top_n_dict)
-
-
-
-    """
-    Finds the most common words
-
-    Args:
-        freq_dict (dict[str, float]): Dictionary with frequencies
-        top_n (int): Number of the most common words
-
-    Returns:
-        Sequence[str] | None: Sequence of the most common words.
-        Returns None in case of incorrect input types or non-positive top_n.
-    """
 
 
 # Mark 6.
