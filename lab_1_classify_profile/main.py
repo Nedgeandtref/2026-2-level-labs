@@ -48,12 +48,14 @@ def remove_stop_words(tokens: Sequence[str], stop_words: Sequence[str]) -> Seque
             Sequence[str] | None: Sequence of tokens without stop words.
             Returns None in case of incorrect input types.
         """
-    if isinstance(tokens, str) or isinstance(stop_words, str):
+    if not(
+        isinstance(tokens, Sequence)
+        and isinstance(stop_words, Sequence)
+        and all([isinstance(word, str) for word in tokens])
+        and all([isinstance(stop_word, str) for stop_word in stop_words])
+    ):
         return None
-    if not isinstance(tokens, (list, tuple, set)) or not isinstance(stop_words, (list, tuple, set)):
-        return None
-    if not stop_words:
-        return tokens
+
 
     clean = []
     for token in tokens:
