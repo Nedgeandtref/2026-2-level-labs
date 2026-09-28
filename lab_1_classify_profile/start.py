@@ -1,7 +1,7 @@
 """
 Language detection starter.
 """
-from main import(
+from lab_1_classify_profile.main import(
     tokenize,
     remove_stop_words,
     calculate_frequencies,
