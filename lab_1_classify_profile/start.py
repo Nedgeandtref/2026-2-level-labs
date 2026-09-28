@@ -17,7 +17,6 @@ def main() -> None:
         stopwords = file.read().split("\n")
     with open("lab_1_classify_profile/assets/texts/en.txt", "r", encoding="utf-8") as file:
         en_text = file.read()
-    result = None
     de_tokens = lab_1_classify_profile.main.tokenize(de_text)
     de_tokens = lab_1_classify_profile.main.remove_stop_words(de_tokens, stopwords)
     de_frequency = lab_1_classify_profile.main.calculate_frequencies(de_tokens)
