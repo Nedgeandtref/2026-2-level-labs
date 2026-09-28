@@ -1,14 +1,8 @@
 """
 Language detection starter.
 """
-from lab_1_classify_profile.main import(
-    tokenize,
-    remove_stop_words,
-    calculate_frequencies,
-    get_top_n_words,
-)
-
 # pylint: disable=unused-variable, duplicate-code
+import lab_1_classify_profile.main
 
 
 def main() -> None:
@@ -24,16 +18,12 @@ def main() -> None:
     with open("lab_1_classify_profile/assets/texts/en.txt", "r", encoding="utf-8") as file:
         en_text = file.read()
     result = None
-
-
-    de_tokens = tokenize(de_text)
-    de_tokens = remove_stop_words(de_tokens, stopwords)
-    de_frequency = calculate_frequencies(de_tokens)
-    de_get_top_n_words = get_top_n_words(de_frequency, 7)
-    result = de_get_top_n_words
-
-    print(result)
+    de_tokens = lab_1_classify_profile.main.tokenize(de_text)
+    de_tokens = lab_1_classify_profile.main.remove_stop_words(de_tokens, stopwords)
+    de_frequency = lab_1_classify_profile.main.calculate_frequencies(de_tokens)
+    result = lab_1_classify_profile.main.get_top_n_words(de_frequency, 7)
     assert result, "Detection result is None"
+    print(result)
 
 if __name__ == "__main__":
     main()
