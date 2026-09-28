@@ -38,11 +38,19 @@ def tokenize(text: str) -> Sequence[str] | None:
 
 
 def remove_stop_words(tokens: Sequence[str], stop_words: Sequence[str]) -> Sequence[str] | None:
-    if not isinstance(tokens, str) or not isinstance(stop_words, str):
-        return
-    return[token for token in tokens is token not in stop_words]
+    if isinstance(tokens, str) or isinstance(stop_words, str):
+        return None
+    if not isinstance(tokens, (list, tuple, set)) or not isinstance(stop_words, (list, tuple, set)):
+        return None
+    if not stop_words:
+        return tokens
 
+    clean = []
+    for token in tokens:
+        if token not in stop_words:
+            clean.append(token)
 
+    return clean
     """
     Removes stop words
 
@@ -56,6 +64,19 @@ def remove_stop_words(tokens: Sequence[str], stop_words: Sequence[str]) -> Seque
 
 
 def calculate_frequencies(tokens: Sequence[str]) -> dict[str, float] | None:
+    if isinstance(tokens, str) or not all(isinstance(token, str) for token in tokens):
+        return
+    token_divider = len(tokens)
+    counts = {}
+    for token in tokens:
+        counts[token] = counts.get(token, 0) + 1
+    frequencies = {}
+    for token, count in counts.items():
+        frequencies[token] = count / token_divider
+    return frequencies
+
+
+
     """
     Calculates frequencies of given tokens
 
@@ -68,6 +89,18 @@ def calculate_frequencies(tokens: Sequence[str]) -> dict[str, float] | None:
 
 
 def get_top_n_words(freq_dict: dict[str, float], top_n: int) -> Sequence[str] | None:
+    if not isinstance(freq_dict, dict) or not isinstance(top_n, int):
+        return
+    if tor_n <= 0:
+        return
+    top_n_words = sorted(freq_dict.items(), key=lambda item: item[1], reverse=True)[:7]
+
+    top_n_dict = dict(top_n_words)
+
+    print(top_n_dict)
+
+
+
     """
     Finds the most common words
 
