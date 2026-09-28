@@ -113,8 +113,7 @@ def get_top_n_words(freq_dict: dict[str, float], top_n: int) -> Sequence[str] | 
         return None
 
     top_n_words = sorted(freq_dict.items(), key=lambda item: item[1], reverse=True)[:7]
-    top_n_dict = dict(top_n_words)
-    print(top_n_dict)
+    return top_n_words
 
 
 # Mark 6.
