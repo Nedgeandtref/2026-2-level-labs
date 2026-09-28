@@ -91,7 +91,7 @@ def calculate_frequencies(tokens: Sequence[str]) -> dict[str, float] | None:
 def get_top_n_words(freq_dict: dict[str, float], top_n: int) -> Sequence[str] | None:
     if not isinstance(freq_dict, dict) or not isinstance(top_n, int):
         return
-    if tor_n <= 0:
+    if top_n <= 0:
         return
     top_n_words = sorted(freq_dict.items(), key=lambda item: item[1], reverse=True)[:7]
 
