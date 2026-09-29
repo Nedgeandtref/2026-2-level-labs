@@ -15,27 +15,14 @@ ProfileType = tuple[str, FreqDictType, int]
 "Language profile of a text. Contains language name, frequency dictionary and number of tokens."
 # Mark 4.
 
+
 def tokenize(text: str) -> Sequence[str] | None:
     """
-        Splits a text into tokens, converts the tokens into lowercase,
-        removes punctuation and other symbols from words
+    Splits a text into tokens, converts the tokens into lowercase,
+    removes punctuation and other symbols from words
 
-        Args:
-           text (str): Text
-
-        Returns:
-            Sequence[str] | None: Sequence of lower-cased tokens without punctuation.
-            Returns None if input text is not a string.
-        """
-    if not isinstance(text, str):
-        return
-    text = text.lower()
-    cleaned_lst = []
-    for symbol in text:
-        if symbol.isalpha() or symbol == " ":
-            cleaned_lst.append(symbol)
-    cleaned_str = "".join(cleaned_lst)
-    return cleaned_str.split()
+    Args:
+       text (str): Text
 
     Returns:
         Sequence[str] | None: Sequence of lower-cased tokens without punctuation.
@@ -53,30 +40,7 @@ def tokenize(text: str) -> Sequence[str] | None:
 
 def remove_stop_words(tokens: Sequence[str], stop_words: Sequence[str]) -> Sequence[str] | None:
     """
-        Removes stop words
-
-        Args:
-            tokens (Sequence[str]): Sequence of tokens
-            stop_words (Sequence[str]): Sequence of stop words (can be empty)
-        Returns:
-            Sequence[str] | None: Sequence of tokens without stop words.
-            Returns None in case of incorrect input types.
-        """
-    if not(
-        isinstance(tokens, Sequence)
-        and isinstance(stop_words, Sequence)
-        and all([isinstance(word, str) for word in tokens])
-        and all([isinstance(stop_word, str) for stop_word in stop_words])
-    ):
-        return None
-
-
-    clean = []
-    for token in tokens:
-        if token not in stop_words:
-            clean.append(token)
-
-    return clean
+    Removes stop words
 
     Args:
         tokens (Sequence[str]): Sequence of tokens
@@ -102,28 +66,7 @@ def remove_stop_words(tokens: Sequence[str], stop_words: Sequence[str]) -> Seque
 
 def calculate_frequencies(tokens: Sequence[str]) -> dict[str, float] | None:
     """
-        Calculates frequencies of given tokens
-
-        Args:
-            tokens (Sequence[str]): Sequence of tokens
-        Returns:
-            dict[str, float] | None: Dictionary with frequencies.
-            Returns None in case of incorrect input types.
-        """
-    if not(isinstance(tokens, Sequence) and all([isinstance(word, str) for word in tokens])):
-        return None
-
-    token_divider = len(tokens)
-    counts = {}
-    for token in tokens:
-        counts[token] = counts.get(token, 0) + 1
-    frequencies = {}
-    for token, count in counts.items():
-        frequencies[token] = count / token_divider
-    return frequencies
-
-
-
+    Calculates frequencies of given tokens
 
     Args:
         tokens (Sequence[str]): Sequence of tokens
@@ -148,7 +91,7 @@ def calculate_frequencies(tokens: Sequence[str]) -> dict[str, float] | None:
 
 def get_top_n_words(freq_dict: dict[str, float], top_n: int) -> Sequence[str] | None:
     """
-        Finds the most common words
+    Finds the most common words
 
     Args:
         freq_dict (dict[str, float]): Dictionary with frequencies
