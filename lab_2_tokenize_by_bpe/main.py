@@ -24,7 +24,11 @@ def prepare_word(
 
     In case of corrupt input arguments, None is returned
     """
-    if not isinstance(raw_word, str):
+    if(
+    not isinstance(raw_word, str)
+    or not isinstance (start_of_word, str | None)
+    or not isinstance(end_of_word, str | None)
+    ):
         return None
 
     pre_text = list(raw_word)
