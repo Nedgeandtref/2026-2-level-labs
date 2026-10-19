@@ -61,6 +61,23 @@ def collect_frequencies(
     None is returned
     """
 
+    if(
+    not isinstance(text,str)
+    or not isinstance(start_of_word, str | None)
+    or not isinstance(end_of_word, str)
+    ):
+        return None
+
+    frequence = {}
+    for word in text.split():
+        words = prepare_word(word, start_of_word, end_of_word)
+        if words is None:
+            return None
+        frequence[words] = frequence.get(words, 0) + 1
+    return frequence
+
+
+
 
 def count_tokens_pairs(
     word_frequencies: dict[tuple[str, ...], int],
