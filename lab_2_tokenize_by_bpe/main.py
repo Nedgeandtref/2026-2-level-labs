@@ -32,10 +32,10 @@ def prepare_word(
         return None
 
     pre_text = list(raw_word)
-    if start_of_word:
+    if start_of_word is not None:
         pre_text.insert(0, start_of_word)
 
-    if end_of_word:
+    if end_of_word is not None:
         pre_text.append(end_of_word)
 
     return tuple(pre_text)
