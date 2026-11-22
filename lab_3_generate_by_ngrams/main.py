@@ -52,15 +52,18 @@ class TextProcessor:
 
         for w in text.lower().split():
             token = [char for char in w if char.isalpha()]
+
             if token:
                 tokens.extend(token)
                 tokens.append(self._end_of_word_token)
 
+        if text.strip()[-1].isalpha():
+            tokens.pop()
+
         if not tokens:
             return None
 
-        return(tuple(tokens))
-
+        return tuple(tokens)
 
 
 
@@ -110,6 +113,16 @@ class TextProcessor:
 
         In case of corrupt input arguments or arguments not included in storage, None is returned
         """
+        if not isinstance(element_id, int) or isinstance(element_id, bool):
+            return None
+
+        for token, token_id in self._storage.items():
+            if token_id == element_id:
+                return token
+
+        return None
+
+
 
     def encode(self, text: str) -> tuple[int, ...] | None:
         """
@@ -127,6 +140,20 @@ class TextProcessor:
         In case of corrupt input arguments, None is returned.
         In case any of methods used return None, None is returned.
         """
+        tokens = self._tokenize(text)
+        if tokens is None:
+            return None
+
+        ids = []
+        for token in tokens:
+            self._put(token)
+            t_id = self.get_id(token)
+            if t_id is None:
+                return None
+            ids.append(t_id)
+
+        return tuple(ids)
+
 
     def _put(self, element: str) -> None:
         """
@@ -138,6 +165,12 @@ class TextProcessor:
         In case of corrupt input arguments or invalid argument length,
         an element is not added to storage
         """
+        if not isinstance(element, str) or len(element != 1):
+            return
+
+        if element not in self._storage:
+            self._storage[element] = len(self._storage)
+
 
     def decode(self, encoded_corpus: tuple[int, ...]) -> str | None:
         """
@@ -155,6 +188,24 @@ class TextProcessor:
         In case of corrupt input arguments, None is returned.
         In case any of methods used return None, None is returned.
         """
+        if not isinstance(encoded_corpus, tuple) or not encoded_corpus:
+            return None
+
+        if not all(isinstance(item, int) for i in encoded_corpus):
+            return None
+
+
+        pre_deco = self._decode(encoded_corpus)
+
+        if pre_deco is None:
+            return None
+
+        return self._postprocess_decoded_text(pre_deco)
+
+
+
+
+
 
     def fill_from_ngrams(self, content: dict) -> None:
         """
@@ -177,6 +228,22 @@ class TextProcessor:
         In case of corrupt input arguments, None is returned.
         In case any of methods used return None, None is returned.
         """
+        if not isinstance(corpus, tuple) or not corpus:
+            return None
+
+        if not all(isinstance(i, int) for i in corpus):
+            return None
+
+        decoded_tokens = []
+        for el in corpus:
+            token = self.get_token(el)
+            if token is None:
+                return None
+            decoded_tokens.append(token)
+
+        return tuple(decoded_tokens)
+
+
 
     def _postprocess_decoded_text(self, decoded_corpus: tuple[str, ...]) -> str | None:
         """
@@ -193,6 +260,40 @@ class TextProcessor:
 
         In case of corrupt input arguments, None is returned
         """
+        if not isinstance(decoded_corpus, tuple) or not decoded_corpus:
+            return None
+
+        if not all(isinstance(i, str) for i in decoded_corpus):
+            return None
+
+        post_text = ''.join(decoded_corpus).replace(self._end_of_word_token, " ")
+        text = []
+
+        for el in post_text:
+            if el.isalpha():
+                text.append(el)
+            elif text and text[-1] != " ":
+                text.append(" ")
+
+        if text and text[-1] == " ":
+            text.pop()
+
+        cleaned = "".join(text)
+
+        if not cleaned:
+            return None
+
+        final = cleaned[0].upper() + cleaned[1:]
+        if final[-1] != ".":
+            final += "."
+
+        return final
+
+
+
+
+
+
 
 
 class WordProcessor(TextProcessor):
